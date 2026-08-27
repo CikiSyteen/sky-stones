@@ -2,139 +2,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>光遇国服红黑石日历</title>
-  <!-- 网站图标 -->
   <link rel="icon" type="image/png" sizes="180x180" href="favicon-180x180.png">
   <link rel="apple-touch-icon" sizes="180x180" href="favicon-180x180.png">
-<!-- 
-        欢迎来到光遇红黑石机制计算器！
-        
-        亲爱的朋友：
-        
-        首先，衷心感谢您愿意花时间查看此页面的源代码！
-        作为开发者，没有什么比看到他人对代码的兴趣更令人欣慰的了。
-        
-        这个项目是我利用AI辅助创建的，旨在帮助光遇玩家计算游戏中红黑石周期性机制的发生时间。
-        我选择不混淆代码并保留注释，是因为我相信知识应该自由分享，开源精神是推动技术和社区进步的重要力量。
-        
-        无论您是开发者、玩家，还是单纯的好奇者，我都热烈欢迎您：
-        - 学习这里的代码实现
-        - 提出改进建议
-        - 分享您的想法和经验
-        - 甚至在此基础上创造自己的版本
-        
-        代码中的详细注释解释了每个部分的功能和实现思路，希望能对您有所帮助。
-        如果您有任何问题或建议，请随时联系我。
-        
-        再次感谢您的访问！愿星光指引您的道路！
-        
-        开发者敬上
-        2025年12月06日
-    -->
-  <!-- 引入外部资源 -->
+  
+  <!-- preconnect 预连接 -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://html2canvas.hertzen.com">
+
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#D05D5A">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-  
-  <!-- 引入自定义样式和脚本 -->
+  <!-- html2canvas 将在首次导出时动态加载，此处移除原 script 标签 -->
   <link rel="stylesheet" href="css/styles.css">
-  
-  <!-- 配置Tailwind自定义主题 -->
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          colors: {
-            primary: '#D05D5A', // 红石色
-            blackstone: '#6B6B6B', // 黑石色
-            secondary: '#FCE4EC', // 浅红色背景
-            accent: '#FF5252', // 强调红色
-            neutral: '#F5F5F5', // 中性灰色
-          },
-          fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-          },
+          colors: { primary: '#D05D5A', blackstone: '#6B6B6B', secondary: '#FCE4EC', accent: '#FF5252', neutral: '#F5F5F5' },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
         },
       }
     }
   </script>
-  
-  <!-- 自定义工具类 -->
   <style type="text/tailwindcss">
     @layer utilities {
-      .content-auto {
-        content-visibility: auto;
-      }
-      .calendar-day-hover {
-        @apply transition-all duration-200 hover:scale-105 rounded-md;
-      }
-      .btn-primary {
-        @apply bg-primary text-white px-4 py-2 rounded-md transition-all duration-200 hover:bg-accent hover:shadow-md active:scale-95;
-      }
-      .btn-icon {
-        @apply bg-white text-primary border border-primary/20 p-2 rounded-full transition-all duration-200 hover:bg-secondary hover:shadow-sm active:scale-95;
-      }
-      .today-badge {
-        @apply absolute top-1 right-1 bg-white text-primary border border-primary text-xs px-1 rounded font-medium;
-      }
-      .redstone-bg {
-        @apply bg-primary text-white;
-      }
-      .blackstone-bg {
-        @apply bg-blackstone text-white;
-      }
-      .mobile-day-cell {
-        @apply flex flex-col items-center justify-center text-center p-1 cursor-pointer;
-      }
-      .detail-modal {
-        @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4;
-      }
-      .detail-content {
-        @apply bg-white rounded-xl p-6 max-w-md w-full max-h-[80vh] overflow-auto shadow-xl;
-      }
-      /* 彩蛋动画类 */
-      .egg-slide-in {
-        @apply animate-slideIn;
-      }
-      .egg-slide-out {
-        @apply animate-slideOut;
-      }
+      .content-auto { content-visibility: auto; }
+      .calendar-day-hover { @apply transition-all duration-200 hover:scale-105 rounded-md; }
+      .btn-primary { @apply bg-primary text-white px-4 py-2 rounded-md transition-all duration-200 hover:bg-accent hover:shadow-md active:scale-95; }
+      .btn-icon { @apply bg-white text-primary border border-primary/20 p-2 rounded-full transition-all duration-200 hover:bg-secondary hover:shadow-sm active:scale-95; }
+      .today-badge { @apply absolute top-1 right-1 bg-white text-primary border border-primary text-xs px-1 rounded font-medium; }
+      .redstone-bg { @apply bg-primary text-white; }
+      .blackstone-bg { @apply bg-blackstone text-white; }
+      .mobile-day-cell { @apply flex flex-col items-center justify-center text-center p-1 cursor-pointer; }
+      .detail-modal { @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4; }
+      .detail-content { @apply bg-white rounded-xl p-6 max-w-md w-full max-h-[80vh] overflow-auto shadow-xl; }
+      .egg-slide-in { @apply animate-slideIn; }
+      .egg-slide-out { @apply animate-slideOut; }
     }
   </style>
-  
 </head>
 <body class="min-h-screen font-sans text-gray-800">
-  <!-- 彩蛋元素 -->
   <div id="achievementEgg">
-    <div class="egg-icon">
-      <i class="fa fa-star"></i>
-    </div>
+    <div class="egg-icon"><i class="fa fa-star"></i></div>
     <div class="egg-content">
       <div class="egg-title">获得成就</div>
       <div class="egg-desc">光之起源 ✨</div>
     </div>
   </div>
-  
-  <!-- 截图区域：默认隐藏，仅用于截图 -->
-  <div class="screenshot-area" id="screenshotTarget">
-    <!-- 页面标题 -->
-    <header class="text-center mb-4">
-      <h1 class="text-[clamp(1.5rem,4vw,2rem)] font-bold text-primary mb-3">
-        光遇国服红黑石日历
-      </h1>
-      
 
+  <!-- 截图区域 -->
+  <div class="screenshot-area" id="screenshotTarget">
+    <header class="text-center mb-4">
+      <h1 class="text-[clamp(1.5rem,4vw,2rem)] font-bold text-primary mb-3">光遇国服红黑石日历</h1>
     </header>
-    
-    <!-- 日历容器 -->
     <div class="bg-white rounded-xl shadow-lg p-4 md:p-5 overflow-hidden">
-      <!-- 日历头部：月份切换和当前日期 -->
       <div class="flex justify-center items-center mb-4">
-        <div class="text-[clamp(1.2rem,3vw,1.4rem)] font-semibold text-gray-800" id="exportMonth">
-          2025年11月
-        </div>
+        <div class="text-[clamp(1.2rem,3vw,1.4rem)] font-semibold text-gray-800" id="exportMonth">2025年11月</div>
       </div>
-      
-      <!-- 星期标题行 -->
       <div class="grid grid-cols-7 gap-2 mb-2">
         <div class="text-center py-2 font-medium text-gray-700 text-sm">周一</div>
         <div class="text-center py-2 font-medium text-gray-700 text-sm">周二</div>
@@ -144,805 +71,253 @@
         <div class="text-center py-2 font-medium text-primary text-sm">周六</div>
         <div class="text-center py-2 font-medium text-primary text-sm">周日</div>
       </div>
-      
-      <!-- 日历主体：日期格子 -->
-      <div id="exportCalendarGrid" class="calendar-grid grid">
-        <!-- 日期格子将通过JavaScript动态生成 -->
-      </div>
+      <div id="exportCalendarGrid" class="calendar-grid grid"></div>
     </div>
   </div>
-  
-  <!-- 使用说明弹窗 -->
+
+  <!-- 说明弹窗 -->
   <div id="infoModal" class="detail-modal">
     <div class="detail-content max-w-3xl max-h-[90vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-primary">说明</h2>
-        <button id="closeInfoModal" class="text-gray-500 hover:text-gray-700 text-xl">
-          <i class="fa fa-times"></i>
-        </button>
+        <button id="closeInfoModal" class="text-gray-500 hover:text-gray-700 text-xl"><i class="fa fa-times"></i></button>
       </div>
-      
-      <!-- 标签页导航 -->
       <div class="mb-6 border-b border-gray-200">
         <nav class="flex -mb-px">
-          <button id="tab-usage" class="tab-btn active py-2 px-4 border-b-2 border-primary text-primary font-medium">
-            使用<br>说明
-          </button>
-          <button id="tab-mechanics" class="tab-btn py-2 px-4 border-b-2 border-transparent text-gray-500 font-medium">
-            游戏<br>机制
-          </button>
-          <button id="tab-about" class="tab-btn py-2 px-4 border-b-2 border-transparent text-gray-500 font-medium">
-            关于<br>项目
-          </button>
+          <button id="tab-usage" class="tab-btn active py-2 px-4 border-b-2 border-primary text-primary font-medium">使用说明</button>
+          <button id="tab-mechanics" class="tab-btn py-2 px-4 border-b-2 border-transparent text-gray-500 font-medium">游戏机制</button>
+          <button id="tab-about" class="tab-btn py-2 px-4 border-b-2 border-transparent text-gray-500 font-medium">关于项目</button>
         </nav>
       </div>
-      
-            <!-- 使用说明内容 -->
       <div id="content-usage" class="tab-content space-y-6">
-                <!-- 状态信息条 -->
+        <!-- 状态信息条 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">状态信息条</h3>
-          
-          <!-- 边框颜色说明 -->
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
             <p class="text-sm text-gray-600 mb-3">
               信息条位于日历上方，实时显示当前红黑石状态，<strong>边框颜色</strong>随当日情况自动变化：
             </p>
             <div class="flex flex-wrap gap-4 text-sm">
-              <div class="flex items-center">
-                <div class="w-4 h-4 rounded border-2 mr-2 flex-shrink-0" style="border-color: #D05D5A;"></div>
-                <span class="text-gray-700">红石日：红色边框</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-4 h-4 rounded border-2 mr-2 flex-shrink-0" style="border-color: #6B6B6B;"></div>
-                <span class="text-gray-700">黑石日：灰色边框</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-4 h-4 rounded border-2 mr-2 flex-shrink-0" style="border-color: #D1D5DB;"></div>
-                <span class="text-gray-700">无红黑石 / 全部结束后：默认灰色</span>
-              </div>
+              <div class="flex items-center"><div class="w-4 h-4 rounded border-2 mr-2 flex-shrink-0" style="border-color: #D05D5A;"></div><span class="text-gray-700">红石日：红色边框</span></div>
+              <div class="flex items-center"><div class="w-4 h-4 rounded border-2 mr-2 flex-shrink-0" style="border-color: #6B6B6B;"></div><span class="text-gray-700">黑石日：灰色边框</span></div>
+              <div class="flex items-center"><div class="w-4 h-4 rounded border-2 mr-2 flex-shrink-0" style="border-color: #D1D5DB;"></div><span class="text-gray-700">无红黑石 / 全部结束后：默认灰色</span></div>
             </div>
           </div>
-
-          <!-- 状态对应表 -->
           <div class="bg-gray-50 border border-gray-200 rounded-lg overflow-hidden">
             <table class="min-w-full text-sm">
-              <thead>
-                <tr class="bg-gray-100 border-b border-gray-200">
-                  <th class="text-left py-2 px-3 font-medium text-gray-700">信息条显示</th>
-                  <th class="text-left py-2 px-3 font-medium text-gray-700">含义</th>
-                </tr>
-              </thead>
+              <thead><tr class="bg-gray-100 border-b border-gray-200"><th class="text-left py-2 px-3 font-medium text-gray-700">信息条显示</th><th class="text-left py-2 px-3 font-medium text-gray-700">含义</th></tr></thead>
               <tbody class="divide-y divide-gray-100">
-                <tr>
-                  <td class="py-2 px-3 text-gray-800">今天无红黑石</td>
-                  <td class="py-2 px-3 text-gray-500">当日没有红石或黑石降落</td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-3">
-                    <span class="text-red-500 font-medium">红石 / 黑石 正在进行中</span>
-                    <span class="text-xs text-gray-400 ml-2">+ 右上角倒计时</span>
-                  </td>
-                  <td class="py-2 px-3 text-gray-500">当前正处于某个降落时段内，倒计时显示距离本场结束的剩余时间</td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-3">
-                    <span class="text-orange-500 font-medium">即将结束</span>
-                    <span class="text-xs text-gray-400 ml-2">+ 倒计时 +</span>
-                    <span class="text-blue-500"><i class="fa fa-question-circle"></i></span>
-                  </td>
-                  <td class="py-2 px-3 text-gray-500">结束前 5 分钟内，不推荐前往。点击蓝色问号可查看具体原因</td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-3 text-blue-600 font-medium">距离下一场还有 X 分钟</td>
-                  <td class="py-2 px-3 text-gray-500">当日还有未开始的时段，显示等待时间及降落地点</td>
-                </tr>
-                <tr>
-                  <td class="py-2 px-3 text-gray-500 font-medium">今日红石 / 黑石已全部结束</td>
-                  <td class="py-2 px-3 text-gray-500">当日所有时段均已过，边框恢复默认灰色</td>
-                </tr>
+                <tr><td class="py-2 px-3 text-gray-800">今天无红黑石</td><td class="py-2 px-3 text-gray-500">当日没有红石或黑石降落</td></tr>
+                <tr><td class="py-2 px-3"><span class="text-red-500 font-medium">红石 / 黑石 正在进行中</span><span class="text-xs text-gray-400 ml-2">+ 右上角倒计时</span></td><td class="py-2 px-3 text-gray-500">当前正处于某个降落时段内，倒计时显示距离本场结束的剩余时间</td></tr>
+                <tr><td class="py-2 px-3"><span class="text-orange-500 font-medium">即将结束</span><span class="text-xs text-gray-400 ml-2">+ 倒计时 +</span><span class="text-blue-500"><i class="fa fa-question-circle"></i></span></td><td class="py-2 px-3 text-gray-500">结束前 5 分钟内，不推荐前往。点击蓝色问号可查看具体原因</td></tr>
+                <tr><td class="py-2 px-3 text-blue-600 font-medium">距离下一场还有 X 分钟</td><td class="py-2 px-3 text-gray-500">当日还有未开始的时段，显示等待时间及降落地点</td></tr>
+                <tr><td class="py-2 px-3 text-gray-500 font-medium">今日红石 / 黑石已全部结束</td><td class="py-2 px-3 text-gray-500">当日所有时段均已过，边框恢复默认灰色</td></tr>
               </tbody>
             </table>
           </div>
         </section>
-
-        <!-- 日历视图 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">日历视图</h3>
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p class="text-sm text-gray-600 mb-3">
-              日历中每个格子代表一天，颜色表示当天是否有红黑石降落：
-            </p>
+            <p class="text-sm text-gray-600 mb-3">日历中每个格子代表一天，颜色表示当天是否有红黑石降落：</p>
             <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm mb-3">
-              <div class="flex items-center">
-                <div class="w-5 h-5 bg-primary rounded mr-2 flex-shrink-0"></div>
-                <span class="text-gray-700">红色背景 = 红石日</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-5 h-5 bg-blackstone rounded mr-2 flex-shrink-0"></div>
-                <span class="text-gray-700">灰色背景 = 黑石日</span>
-              </div>
-              <div class="flex items-center">
-                <div class="w-5 h-5 bg-white border border-gray-300 rounded mr-2 flex-shrink-0"></div>
-                <span class="text-gray-700">白色背景 = 无红黑石</span>
-              </div>
-              <div class="flex items-center">
-                <div class="bg-white text-primary border border-primary text-xs px-1 rounded mr-2 flex-shrink-0">今日</div>
-                <span class="text-gray-700">= 当天日期</span>
-              </div>
+              <div class="flex items-center"><div class="w-5 h-5 bg-primary rounded mr-2 flex-shrink-0"></div><span class="text-gray-700">红色背景 = 红石日</span></div>
+              <div class="flex items-center"><div class="w-5 h-5 bg-blackstone rounded mr-2 flex-shrink-0"></div><span class="text-gray-700">灰色背景 = 黑石日</span></div>
+              <div class="flex items-center"><div class="w-5 h-5 bg-white border border-gray-300 rounded mr-2 flex-shrink-0"></div><span class="text-gray-700">白色背景 = 无红黑石</span></div>
+              <div class="flex items-center"><div class="bg-white text-primary border border-primary text-xs px-1 rounded mr-2 flex-shrink-0">今日</div><span class="text-gray-700">= 当天日期</span></div>
             </div>
-            <p class="text-sm text-gray-500">
-              点击月份两侧的箭头可切换月份，点击"回到今天"按钮可快速跳回当前月份。
-            </p>
+            <p class="text-sm text-gray-500">点击月份两侧的箭头可切换月份，点击"回到今天"按钮可快速跳回当前月份。</p>
           </div>
         </section>
-
-        <!-- PC端与移动端 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">PC端与移动端的区别</h3>
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <h4 class="font-medium text-gray-800 mb-2">🖥️ PC 端</h4>
-                <p class="text-gray-600">
-                  红黑石日期格子上直接显示降落地点和时间段，无需额外点击。
-                </p>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-800 mb-2">📱 移动端</h4>
-                <p class="text-gray-600">
-                  日期格子上仅显示"红石"或"黑石"标签，点击有颜色的日期可弹出详情窗口，查看具体地点和时间段。左右滑动日历区域可切换月份。
-                </p>
-              </div>
+              <div><h4 class="font-medium text-gray-800 mb-2">🖥️ PC 端</h4><p class="text-gray-600">红黑石日期格子上直接显示降落地点和时间段，无需额外点击。</p></div>
+              <div><h4 class="font-medium text-gray-800 mb-2">📱 移动端</h4><p class="text-gray-600">日期格子上仅显示"红石"或"黑石"标签，点击有颜色的日期可弹出详情窗口，查看具体地点和时间段。左右滑动日历区域可切换月份。</p></div>
             </div>
           </div>
         </section>
-
-        <!-- 工具栏按钮 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">工具栏按钮</h3>
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
             <div class="space-y-3 text-sm">
-              <div class="flex items-start">
-                <span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs">
-                  <i class="fa fa-info"></i>
-                </span>
-                <div>
-                  <span class="font-medium text-gray-800">使用说明</span>
-                  <span class="text-gray-500"> — 打开本说明弹窗</span>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs">
-                  <i class="fa fa-copy"></i>
-                </span>
-                <div>
-                  <span class="font-medium text-gray-800">复制</span>
-                  <span class="text-gray-500"> — 一键复制今日红黑石信息（类型、地点、时间段），方便粘贴分享</span>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs">
-                  <i class="fa fa-share-alt"></i>
-                </span>
-                <div>
-                  <span class="font-medium text-gray-800">导出图片</span>
-                  <span class="text-gray-500"> — 将当前月份日历导出为 PNG 图片，可下载或分享</span>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs">
-                  <i class="fa fa-calendar-o"></i>
-                </span>
-                <div>
-                  <span class="font-medium text-gray-800">回到今天</span>
-                  <span class="text-gray-500"> — 快速跳回当前月份</span>
-                </div>
-              </div>
-              <div class="flex items-start">
-                <span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs">
-                  <i class="fa fa-eye-slash"></i>
-                </span>
-                <div>
-                  <span class="font-medium text-gray-800">小眼睛</span>
-                  <span class="text-gray-500"> — 隐藏/显示工具栏和"今日"标记，获得干净展示的日历</span>
-                </div>
-              </div>
+              <div class="flex items-start"><span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs"><i class="fa fa-info"></i></span><div><span class="font-medium text-gray-800">使用说明</span><span class="text-gray-500"> — 打开本说明弹窗</span></div></div>
+              <div class="flex items-start"><span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs"><i class="fa fa-copy"></i></span><div><span class="font-medium text-gray-800">复制</span><span class="text-gray-500"> — 一键复制今日红黑石信息（类型、地点、时间段），方便粘贴分享</span></div></div>
+              <div class="flex items-start"><span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs"><i class="fa fa-share-alt"></i></span><div><span class="font-medium text-gray-800">导出图片</span><span class="text-gray-500"> — 将当前月份日历导出为 PNG 图片，可下载或分享</span></div></div>
+              <div class="flex items-start"><span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs"><i class="fa fa-calendar-o"></i></span><div><span class="font-medium text-gray-800">回到今天</span><span class="text-gray-500"> — 快速跳回当前月份</span></div></div>
+              <div class="flex items-start"><span class="bg-gray-200 text-gray-700 rounded-full w-6 h-6 flex items-center justify-center mr-3 mt-0.5 flex-shrink-0 text-xs"><i class="fa fa-eye-slash"></i></span><div><span class="font-medium text-gray-800">小眼睛</span><span class="text-gray-500"> — 隐藏/显示工具栏和"今日"标记，获得干净展示的日历</span></div></div>
             </div>
           </div>
         </section>
-
-        <!-- 注意事项 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">注意事项</h3>
-          <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <i class="fa fa-exclamation-triangle text-yellow-400"></i>
-              </div>
-              <div class="ml-3">
-                <p class="text-sm text-yellow-700">
-                  本日历数据仅供参考，实际游戏中的红黑石降落可能因游戏更新、活动安排等原因发生变化。如有差异，请以游戏内实际情况为准。
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-3">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <i class="fa fa-info-circle text-blue-400"></i>
-              </div>
-              <div class="ml-3">
-                <p class="text-sm text-blue-700">
-                  本日历的倒计时、剩余时间等功能基于<strong>设备本地时间</strong>计算。若设备时间有误，显示结果可能不准确。信息条已内置时间校准提示，如发现偏差过大请及时调整设备时间。
-                </p>
-              </div>
-            </div>
-          </div>
+          <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4"><div class="flex"><div class="flex-shrink-0"><i class="fa fa-exclamation-triangle text-yellow-400"></i></div><div class="ml-3"><p class="text-sm text-yellow-700">本日历数据仅供参考，实际游戏中的红黑石降落可能因游戏更新、活动安排等原因发生变化。如有差异，请以游戏内实际情况为准。</p></div></div></div>
+          <div class="bg-blue-50 border-l-4 border-blue-400 p-4 mt-3"><div class="flex"><div class="flex-shrink-0"><i class="fa fa-info-circle text-blue-400"></i></div><div class="ml-3"><p class="text-sm text-blue-700">本日历的倒计时、剩余时间等功能基于<strong>设备本地时间</strong>计算。若设备时间有误，显示结果可能不准确。信息条已内置时间校准提示，如发现偏差过大请及时调整设备时间。</p></div></div></div>
         </section>
       </div>
-      
-      <!-- 游戏机制内容 -->
       <div id="content-mechanics" class="tab-content space-y-6 hidden">
-        <!-- 速查卡片 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">机制速览</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- 红石卡片 -->
-            <div class="bg-white border border-primary/30 rounded-lg p-4">
-              <h4 class="font-semibold text-primary mb-2 flex items-center">
-                <i class="fa fa-fire mr-2"></i>红石
-              </h4>
-              <div class="text-sm text-gray-700 space-y-1">
-                <p>上半月（1-15日）：<strong>周六、周日</strong></p>
-                <p>下半月（16-31日）：<strong>周五、周日</strong></p>
-                <p class="text-gray-500 text-xs mt-2">奖励：升华蜡烛 · 每周2次 · 最多5根</p>
-              </div>
-            </div>
-            <!-- 黑石卡片 -->
-            <div class="bg-white border border-blackstone/30 rounded-lg p-4">
-              <h4 class="font-semibold text-blackstone mb-2 flex items-center">
-                <i class="fa fa-moon-o mr-2"></i>黑石
-              </h4>
-              <div class="text-sm text-gray-700 space-y-1">
-                <p>上半月（1-15日）：<strong>周二</strong></p>
-                <p>下半月（16-31日）：<strong>周三</strong></p>
-                <p class="text-gray-500 text-xs mt-2">奖励：约200滴烛火（约2.5根白蜡） · 每周1次</p>
-              </div>
-            </div>
+            <div class="bg-white border border-primary/30 rounded-lg p-4"><h4 class="font-semibold text-primary mb-2 flex items-center"><i class="fa fa-fire mr-2"></i>红石</h4><div class="text-sm text-gray-700 space-y-1"><p>上半月（1-15日）：<strong>周六、周日</strong></p><p>下半月（16-31日）：<strong>周五、周日</strong></p><p class="text-gray-500 text-xs mt-2">奖励：升华蜡烛 · 每周2次 · 最多5根</p></div></div>
+            <div class="bg-white border border-blackstone/30 rounded-lg p-4"><h4 class="font-semibold text-blackstone mb-2 flex items-center"><i class="fa fa-moon-o mr-2"></i>黑石</h4><div class="text-sm text-gray-700 space-y-1"><p>上半月（1-15日）：<strong>周二</strong></p><p>下半月（16-31日）：<strong>周三</strong></p><p class="text-gray-500 text-xs mt-2">奖励：约200滴烛火（约2.5根白蜡） · 每周1次</p></div></div>
           </div>
         </section>
-
-        <!-- 规则详解 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">规则详解</h3>
-          
-          <!-- 红石规则 -->
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
             <h4 class="font-semibold text-primary mb-3">红石降落规则</h4>
-            <p class="text-sm text-gray-600 mb-3">
-              以每月15日为界：<strong>上半月</strong>在周六和周日降落，<strong>下半月</strong>在周五和周日降落。红石不会出现跨半月取消的情况。
-            </p>
-            <div class="bg-white rounded border border-gray-200 overflow-hidden">
-              <table class="min-w-full text-sm">
-                <thead>
-                  <tr class="bg-gray-100 border-b border-gray-200">
-                    <th class="text-left py-2 px-3 font-medium">星期</th>
-                    <th class="text-left py-2 px-3 font-medium">时间段</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 px-3 font-medium">周五</td>
-                    <td class="py-2 px-3 text-gray-600">11:08~12:00、17:08~18:00、23:08~24:00</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 px-3 font-medium">周六</td>
-                    <td class="py-2 px-3 text-gray-600">10:08~11:00、14:08~15:00、22:08~23:00</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 px-3 font-medium">周日</td>
-                    <td class="py-2 px-3 text-gray-600">07:08~08:00、13:08~14:00、19:08~20:00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <p class="text-sm text-gray-600 mb-3">以每月15日为界：<strong>上半月</strong>在周六和周日降落，<strong>下半月</strong>在周五和周日降落。红石不会出现跨半月取消的情况。</p>
+            <div class="bg-white rounded border border-gray-200 overflow-hidden"><table class="min-w-full text-sm"><thead><tr class="bg-gray-100 border-b border-gray-200"><th class="text-left py-2 px-3 font-medium">星期</th><th class="text-left py-2 px-3 font-medium">时间段</th></tr></thead><tbody><tr><td class="py-2 px-3 font-medium">周五</td><td class="py-2 px-3 text-gray-600">11:08~12:00、17:08~18:00、23:08~24:00</td></tr><tr><td class="py-2 px-3 font-medium">周六</td><td class="py-2 px-3 text-gray-600">10:08~11:00、14:08~15:00、22:08~23:00</td></tr><tr><td class="py-2 px-3 font-medium">周日</td><td class="py-2 px-3 text-gray-600">07:08~08:00、13:08~14:00、19:08~20:00</td></tr></tbody></table></div>
           </div>
-
-          <!-- 黑石规则 -->
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
             <h4 class="font-semibold text-blackstone mb-3">黑石降落规则</h4>
-            <p class="text-sm text-gray-600 mb-3">
-              以每月15日为界：<strong>上半月</strong>在周二降落，<strong>下半月</strong>在周三降落。
-            </p>
-            <div class="bg-white rounded border border-gray-200 overflow-hidden mb-3">
-              <table class="min-w-full text-sm">
-                <thead>
-                  <tr class="bg-gray-100 border-b border-gray-200">
-                    <th class="text-left py-2 px-3 font-medium">星期</th>
-                    <th class="text-left py-2 px-3 font-medium">时间段</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 px-3 font-medium">周二</td>
-                    <td class="py-2 px-3 text-gray-600">09:08~10:00、14:08~15:00、19:08~20:00</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 px-3 font-medium">周三</td>
-                    <td class="py-2 px-3 text-gray-600">09:08~10:00、15:08~16:00、21:08~22:00</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <!-- 跨半月规则 - 高亮 -->
-            <div class="bg-yellow-50 border border-yellow-300 rounded-lg p-3">
-              <h5 class="font-medium text-yellow-800 mb-1 flex items-center text-sm">
-                <i class="fa fa-exclamation-triangle mr-2 text-yellow-500"></i>跨半月取消规则
-              </h5>
-              <p class="text-sm text-yellow-700">
-                若某个周二与周三恰好在不同的半个月内（跨过了15/16日的分界线），当周黑石不会降落。
-              </p>
-              <p class="text-xs text-yellow-600 mt-1 italic">
-                例如：2024年12月31日是周二（下半月），次日2025年1月1日是周三（上半月），故该周无黑石。红石不受此规则影响。
-              </p>
-            </div>
+            <p class="text-sm text-gray-600 mb-3">以每月15日为界：<strong>上半月</strong>在周二降落，<strong>下半月</strong>在周三降落。</p>
+            <div class="bg-white rounded border border-gray-200 overflow-hidden mb-3"><table class="min-w-full text-sm"><thead><tr class="bg-gray-100 border-b border-gray-200"><th class="text-left py-2 px-3 font-medium">星期</th><th class="text-left py-2 px-3 font-medium">时间段</th></tr></thead><tbody><tr><td class="py-2 px-3 font-medium">周二</td><td class="py-2 px-3 text-gray-600">09:08~10:00、14:08~15:00、19:08~20:00</td></tr><tr><td class="py-2 px-3 font-medium">周三</td><td class="py-2 px-3 text-gray-600">09:08~10:00、15:08~16:00、21:08~22:00</td></tr></tbody></table></div>
+            <div class="bg-yellow-50 border border-yellow-300 rounded-lg p-3"><h5 class="font-medium text-yellow-800 mb-1 flex items-center text-sm"><i class="fa fa-exclamation-triangle mr-2 text-yellow-500"></i>跨月取消规则</h5><p class="text-sm text-yellow-700">若某个周二与周三恰好分属<strong>不同的月份</strong>（跨过了月末/月初的分界线），当周黑石不会降落。注意：同一月份内的 15/16 分界（如 15号周二、16号周三）不属于跨月，两天各自独立、黑石照常降落。</p><p class="text-xs text-yellow-600 mt-1 italic">例如：2024年12月31日是周二（12月下半月），次日2025年1月1日是周三（1月上半月），分属不同月份，故该周无黑石。红石不受此规则影响。</p></div>
           </div>
         </section>
-
-        <!-- 降落地点 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">降落地点</h3>
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p class="text-sm text-gray-600 mb-3">
-              <strong>大地图</strong>由日期数字除以5的余数决定：余0=霞谷，余1=暮土，余2=禁阁，余3=云野，余4=雨林。<br>
-              <strong>具体小区域</strong>再由星期几确定：
-            </p>
-            <div class="overflow-x-auto">
-              <table class="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-                <thead>
-                  <tr class="bg-gray-100 border-b border-gray-200">
-                    <th class="text-left py-2 px-3 font-medium">地图</th>
-                    <th class="text-left py-2 px-3 font-medium">周二</th>
-                    <th class="text-left py-2 px-3 font-medium">周三</th>
-                    <th class="text-left py-2 px-3 font-medium">周五</th>
-                    <th class="text-left py-2 px-3 font-medium">周六</th>
-                    <th class="text-left py-2 px-3 font-medium">周日</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 px-3 font-medium">霞谷</td>
-                    <td class="py-2 px-3 text-gray-600">滑冰场</td>
-                    <td class="py-2 px-3 text-gray-600">滑冰场</td>
-                    <td class="py-2 px-3 text-gray-600">圆梦村</td>
-                    <td class="py-2 px-3 text-gray-600">圆梦村</td>
-                    <td class="py-2 px-3 text-gray-600">雪隐峰</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 px-3 font-medium">暮土</td>
-                    <td class="py-2 px-3 text-gray-600">边陲荒漠</td>
-                    <td class="py-2 px-3 text-gray-600">远古战场</td>
-                    <td class="py-2 px-3 text-gray-600">黑水港湾</td>
-                    <td class="py-2 px-3 text-gray-600">巨兽荒原</td>
-                    <td class="py-2 px-3 text-gray-600">失落方舟</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 px-3 font-medium">禁阁</td>
-                    <td class="py-2 px-3 text-gray-600">星光沙漠</td>
-                    <td class="py-2 px-3 text-gray-600">星光沙漠</td>
-                    <td class="py-2 px-3 text-gray-600">商船星球</td>
-                    <td class="py-2 px-3 text-gray-600">商船星球</td>
-                    <td class="py-2 px-3 text-gray-600">商船星球</td>
-                  </tr>
-                  <tr class="border-b border-gray-100">
-                    <td class="py-2 px-3 font-medium">云野</td>
-                    <td class="py-2 px-3 text-gray-600">蝴蝶平原</td>
-                    <td class="py-2 px-3 text-gray-600">仙乡</td>
-                    <td class="py-2 px-3 text-gray-600">云顶浮石</td>
-                    <td class="py-2 px-3 text-gray-600">幽光山洞</td>
-                    <td class="py-2 px-3 text-gray-600">圣岛</td>
-                  </tr>
-                  <tr>
-                    <td class="py-2 px-3 font-medium">雨林</td>
-                    <td class="py-2 px-3 text-gray-600">荧光森林</td>
-                    <td class="py-2 px-3 text-gray-600">密林遗迹</td>
-                    <td class="py-2 px-3 text-gray-600">大树屋</td>
-                    <td class="py-2 px-3 text-gray-600">雨林神殿</td>
-                    <td class="py-2 px-3 text-gray-600">秘密花园</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <p class="text-sm text-gray-600 mb-3"><strong>大地图</strong>由日期数字除以5的余数决定：余0=霞谷，余1=暮土，余2=禁阁，余3=云野，余4=雨林。<br><strong>具体小区域</strong>再由星期几确定：</p>
+            <div class="overflow-x-auto"><table class="min-w-full text-sm border border-gray-200 rounded-lg overflow-hidden"><thead><tr class="bg-gray-100 border-b border-gray-200"><th class="text-left py-2 px-3 font-medium">地图</th><th class="text-left py-2 px-3 font-medium">周二</th><th class="text-left py-2 px-3 font-medium">周三</th><th class="text-left py-2 px-3 font-medium">周五</th><th class="text-left py-2 px-3 font-medium">周六</th><th class="text-left py-2 px-3 font-medium">周日</th></tr></thead><tbody><tr><td class="py-2 px-3 font-medium">霞谷</td><td class="py-2 px-3 text-gray-600">滑冰场</td><td class="py-2 px-3 text-gray-600">滑冰场</td><td class="py-2 px-3 text-gray-600">圆梦村</td><td class="py-2 px-3 text-gray-600">圆梦村</td><td class="py-2 px-3 text-gray-600">雪隐峰</td></tr><tr><td class="py-2 px-3 font-medium">暮土</td><td class="py-2 px-3 text-gray-600">边陲荒漠</td><td class="py-2 px-3 text-gray-600">远古战场</td><td class="py-2 px-3 text-gray-600">黑水港湾</td><td class="py-2 px-3 text-gray-600">巨兽荒原</td><td class="py-2 px-3 text-gray-600">失落方舟</td></tr><tr><td class="py-2 px-3 font-medium">禁阁</td><td class="py-2 px-3 text-gray-600">星光沙漠</td><td class="py-2 px-3 text-gray-600">星光沙漠</td><td class="py-2 px-3 text-gray-600">商船星球</td><td class="py-2 px-3 text-gray-600">商船星球</td><td class="py-2 px-3 text-gray-600">商船星球</td></tr><tr><td class="py-2 px-3 font-medium">云野</td><td class="py-2 px-3 text-gray-600">蝴蝶平原</td><td class="py-2 px-3 text-gray-600">仙乡</td><td class="py-2 px-3 text-gray-600">云顶浮石</td><td class="py-2 px-3 text-gray-600">幽光山洞</td><td class="py-2 px-3 text-gray-600">圣岛</td></tr><tr><td class="py-2 px-3 font-medium">雨林</td><td class="py-2 px-3 text-gray-600">荧光森林</td><td class="py-2 px-3 text-gray-600">密林遗迹</td><td class="py-2 px-3 text-gray-600">大树屋</td><td class="py-2 px-3 text-gray-600">雨林神殿</td><td class="py-2 px-3 text-gray-600">秘密花园</td></tr></tbody></table></div>
           </div>
         </section>
-
-        <!-- 地点补充说明 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">地点参考</h3>
           <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-              <div>
-                <h4 class="font-medium text-gray-800 mb-1">云野</h4>
-                <ul class="text-gray-600 space-y-0.5">
-                  <li>• 仙乡：三塔图</li>
-                  <li>• 云顶浮石：蝴蝶平原右侧</li>
-                  <li>• 幽光山洞：蝴蝶平原左侧</li>
-                </ul>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-800 mb-1">雨林</h4>
-                <ul class="text-gray-600 space-y-0.5">
-                  <li>• 荧光森林：开三个门后，有荧光板处</li>
-                  <li>• 秘密花园：老奶奶干饭点，荧光森林右侧</li>
-                </ul>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-800 mb-1">霞谷</h4>
-                <ul class="text-gray-600 space-y-0.5">
-                  <li>• 雪隐峰：圆梦村坐两次船，或从风行网道可达</li>
-                </ul>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-800 mb-1">暮土</h4>
-                <ul class="text-gray-600 space-y-0.5">
-                  <li>• 边陲荒漠：暮土大厅后第一图</li>
-                  <li>• 黑水港湾：四龙图旁星之门可达</li>
-                  <li>• 巨兽荒原：四龙图</li>
-                </ul>
-              </div>
-              <div>
-                <h4 class="font-medium text-gray-800 mb-1">禁阁</h4>
-                <ul class="text-gray-600 space-y-0.5">
-                  <li>• 商船星球：星光沙漠绿洲左侧通道可达</li>
-                </ul>
-              </div>
+              <div><h4 class="font-medium text-gray-800 mb-1">云野</h4><ul class="text-gray-600 space-y-0.5"><li>• 仙乡：三塔图</li><li>• 云顶浮石：蝴蝶平原右侧</li><li>• 幽光山洞：蝴蝶平原左侧</li></ul></div>
+              <div><h4 class="font-medium text-gray-800 mb-1">雨林</h4><ul class="text-gray-600 space-y-0.5"><li>• 荧光森林：开三个门后，有荧光板处</li><li>• 秘密花园：老奶奶干饭点，荧光森林右侧</li></ul></div>
+              <div><h4 class="font-medium text-gray-800 mb-1">霞谷</h4><ul class="text-gray-600 space-y-0.5"><li>• 雪隐峰：圆梦村坐两次船，或从风行网道可达</li></ul></div>
+              <div><h4 class="font-medium text-gray-800 mb-1">暮土</h4><ul class="text-gray-600 space-y-0.5"><li>• 边陲荒漠：暮土大厅后第一图</li><li>• 黑水港湾：四龙图旁星之门可达</li><li>• 巨兽荒原：四龙图</li></ul></div>
+              <div><h4 class="font-medium text-gray-800 mb-1">禁阁</h4><ul class="text-gray-600 space-y-0.5"><li>• 商船星球：星光沙漠绿洲左侧通道可达</li></ul></div>
             </div>
           </div>
         </section>
-
-        <!-- 温馨提示 -->
         <section>
           <h3 class="text-xl font-semibold mb-3">温馨提示</h3>
           <div class="space-y-3">
-            <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
-              <p class="text-sm text-blue-700">黑暗腐蚀降落时，降落地点的天空会变为<strong>红色</strong>。</p>
-            </div>
-            <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
-              <p class="text-sm text-blue-700">同一天多次完成净化任务，<strong>只在第一次获得奖励</strong>。但多次净化红石可多次完成破晓季向导任务，破晓季任务可以一天做完。</p>
-            </div>
-            <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
-              <p class="text-sm text-blue-700">远古回忆中的金人属于<strong>普通光翼</strong>，献祭后需要重新获取。</p>
-            </div>
-            <div class="bg-blue-50 border-l-4 border-blue-400 p-4">
-              <p class="text-sm text-blue-700">红石净化任务中，光圈内坐下的玩家形成一队，收集光之碎片的进度为<strong>全队累计</strong>，完成后全队获得等量升华蜡烛。</p>
-            </div>
-            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-              <p class="text-sm text-yellow-700">红石时间结束时净化任务未完成，任务会强行中止，<strong>不会获得升华蜡烛</strong>。当天下一场完成仍可获得。</p>
-            </div>
-            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-              <p class="text-sm text-yellow-700"><strong>不建议卡点烧花</strong>，超时拿不到奖励。建议提前10分钟完成。</p>
-            </div>
-            <div class="bg-green-50 border-l-4 border-green-400 p-4">
-              <p class="text-sm text-green-700">每天只可获一次奖励，<strong>三个时段选一个去即可</strong>。</p>
-            </div>
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4"><p class="text-sm text-blue-700">黑暗腐蚀降落时，降落地点的天空会变为<strong>红色</strong>。</p></div>
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4"><p class="text-sm text-blue-700">同一天多次完成净化任务，<strong>只在第一次获得奖励</strong>。但多次净化红石可多次完成破晓季向导任务，破晓季任务可以一天做完。</p></div>
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4"><p class="text-sm text-blue-700">远古回忆中的金人属于<strong>普通光翼</strong>，献祭后需要重新获取。</p></div>
+            <div class="bg-blue-50 border-l-4 border-blue-400 p-4"><p class="text-sm text-blue-700">红石净化任务中，光圈内坐下的玩家形成一队，收集光之碎片的进度为<strong>全队累计</strong>，完成后全队获得等量升华蜡烛。</p></div>
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4"><p class="text-sm text-yellow-700">红石时间结束时净化任务未完成，任务会强行中止，<strong>不会获得升华蜡烛</strong>。当天下一场完成仍可获得。</p></div>
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4"><p class="text-sm text-yellow-700"><strong>不建议卡点烧花</strong>，超时拿不到奖励。建议提前10分钟完成。</p></div>
+            <div class="bg-green-50 border-l-4 border-green-400 p-4"><p class="text-sm text-green-700">每天只可获一次奖励，<strong>三个时段选一个去即可</strong>。</p></div>
           </div>
         </section>
-
-        <!-- 开发者模式开关 -->
-        <section class="mt-6">
-          <div class="flex justify-center items-center p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <label for="devModeToggle" class="flex items-center cursor-pointer">
-              <div class="relative">
-                <input type="checkbox" id="devModeToggle" class="sr-only">
-                <div class="block bg-gray-300 w-14 h-8 rounded-full transition-colors"></div>
-                <div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform"></div>
-              </div>
-              <div class="ml-3 text-gray-700 font-medium">开发者模式</div>
-            </label>
-          </div>
-        </section>
+        <section class="mt-6"><div class="flex justify-center items-center p-4 bg-gray-50 rounded-lg border border-gray-200"><label for="devModeToggle" class="flex items-center cursor-pointer"><div class="relative"><input type="checkbox" id="devModeToggle" class="sr-only"><div class="block bg-gray-300 w-14 h-8 rounded-full transition-colors"></div><div class="dot absolute left-1 top-1 bg-white w-6 h-6 rounded-full transition-transform"></div></div><div class="ml-3 text-gray-700 font-medium">开发者模式</div></label></div></section>
       </div>
-      
-            <!-- 关于项目内容 -->
       <div id="content-about" class="tab-content space-y-6 hidden">
-        <!-- 项目说明 -->
-        <section>
-          <h3 class="text-xl font-semibold mb-3">项目说明</h3>
-          <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p class="text-sm text-gray-600 mb-2">
-              本项目是一个面向《光·遇》国服玩家的红黑石降落日历工具，由开发者独立制作并维护。
-            </p>
-            <p class="text-sm text-gray-600 mb-2">
-              页面中的国际服日历链接指向由其他开发者制作的项目（sky-shards），本站与其无关联关系，仅出于便利玩家之目的提供跳转。开发者不对该站点的内容与功能负责。
-            </p>
-            <p class="text-sm text-gray-500">
-              项目代码在 GitHub 以 MIT 协议开源。
-            </p>
-          </div>
-        </section>
-
-        <!-- 技术栈 -->
-        <section>
-          <h3 class="text-xl font-semibold mb-3">技术栈</h3>
-          <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <ul class="text-sm text-gray-600 space-y-1">
-              <li>• 纯原生 JavaScript，无前端框架</li>
-              <li>• <a href="https://tailwindcss.com/" class="text-blue-600 hover:underline">Tailwind CSS</a>（CDN）— 样式</li>
-              <li>• <a href="https://fontawesome.com/" class="text-blue-600 hover:underline">Font Awesome</a> — 图标</li>
-              <li>• <a href="https://html2canvas.hertzen.com/" class="text-blue-600 hover:underline">html2canvas</a> — 截图导出</li>
-            </ul>
-          </div>
-        </section>
-
-        <!-- 版本信息 -->
-        <section>
-          <h3 class="text-xl font-semibold mb-3">版本信息</h3>
-          <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p class="text-sm text-gray-600">
-              当前版本：<span class="font-semibold" id="aboutVersion"></span>
-            </p>
-            <p class="text-sm text-gray-500 mt-1">
-              项目持续更新中，欢迎 <a href="https://github.com/CikiSyteen/sky-stones" class="text-blue-600 hover:underline">Star 关注</a>。
-            </p>
-          </div>
-        </section>
-
-        <!-- 开源协议 -->
-        <section>
-          <h3 class="text-xl font-semibold mb-3">开源协议</h3>
-          <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p class="text-sm text-gray-600 mb-2">
-              本项目代码采用 <a href="https://github.com/CikiSyteen/sky-stones/blob/main/LICENSE" class="text-blue-600 hover:underline">MIT License</a> 协议。
-            </p>
-            <p class="text-sm text-gray-500">
-              ⚠️ 网站图标（favicon-180x180.png）来源于游戏内素材，版权归原版权方所有，不受 MIT 协议覆盖。
-            </p>
-          </div>
-        </section>
-
-        <!-- 社交媒体 -->
-        <section>
-          <h3 class="text-xl font-semibold mb-3">媒体与链接</h3>
-          <div class="flex flex-wrap gap-3">
-            <a href="https://github.com/CikiSyteen/sky-stones" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-full transition-colors flex items-center">
-              <i class="fa fa-github mr-2"></i> GitHub
-            </a>
-            <a href="https://www.douyin.com/user/MS4wLjABAAAAadfGFZLfoNi2OJKJGb_J7WmqVhLVQVEBdJCnc-8fZJKFPThVyAvX-15fLMf2wR5d" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-full transition-colors flex items-center">
-              <i class="fa fa-music mr-2"></i> 抖音
-            </a>
-            <a href="https://www.xiaohongshu.com/user/profile/62d6ad51000000001501b503" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-full transition-colors flex items-center">
-              <i class="fa fa-book mr-2"></i> 小红书
-            </a>
-            <a href="https://sky-shards.pages.dev/zh" target="_blank" rel="noopener noreferrer" class="text-sm bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 rounded-full transition-colors flex items-center">
-              <i class="fa fa-globe mr-2"></i> 国际服日历
-            </a>
-            <a href="https://ciki-hub.pages.dev" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:1.25rem;font-weight:bold;color:#6366f1;text-decoration:none;">
-                <i class="fa fa-cube" style="font-size:1.5rem;"></i>
-                <span>Ciki-Hub</span>
-            </a>
-          </div>
-        </section>
-
-        <!-- 联系与反馈 -->
-        <section>
-          <h3 class="text-xl font-semibold mb-3">联系与反馈</h3>
-          <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-            <p class="text-sm text-gray-600 mb-2">
-              Bug 反馈或功能建议，可通过以下方式联系：
-            </p>
-            <p class="text-sm text-gray-600 mb-2">
-              <i class="fa fa-github mr-2"></i>
-              <a href="https://github.com/CikiSyteen/sky-stones/issues" class="text-blue-600 hover:underline">GitHub Issues</a>
-            </p>
-            <p class="text-sm text-gray-600">
-              <i class="fa fa-envelope mr-2 text-primary"></i>
-              <a href="mailto:ciki2099@foxmail.com" class="text-blue-600 hover:underline">ciki2099@foxmail.com</a>
-            </p>
-          </div>
-        </section>
+        <section><h3 class="text-xl font-semibold mb-3">项目说明</h3><div class="bg-gray-50 border border-gray-200 rounded-lg p-4"><p class="text-sm text-gray-600 mb-2">本项目是一个面向《光·遇》国服玩家的红黑石降落日历工具，由开发者独立制作并维护。</p><p class="text-sm text-gray-600 mb-2">页面中的国际服日历链接指向由其他开发者制作的项目（sky-shards），本站与其无关联关系，仅出于便利玩家之目的提供跳转。开发者不对该站点的内容与功能负责。</p><p class="text-sm text-gray-500">项目代码在 GitHub 以 MIT 协议开源。</p></div></section>
+        <section><h3 class="text-xl font-semibold mb-3">技术栈</h3><div class="bg-gray-50 border border-gray-200 rounded-lg p-4"><ul class="text-sm text-gray-600 space-y-1"><li>• 纯原生 JavaScript，无前端框架</li><li>• <a href="https://tailwindcss.com/" class="text-blue-600 hover:underline">Tailwind CSS</a>（CDN）— 样式</li><li>• <a href="https://fontawesome.com/" class="text-blue-600 hover:underline">Font Awesome</a> — 图标</li><li>• <a href="https://html2canvas.hertzen.com/" class="text-blue-600 hover:underline">html2canvas</a> — 截图导出</li></ul></div></section>
+        <section><h3 class="text-xl font-semibold mb-3">版本信息</h3><div class="bg-gray-50 border border-gray-200 rounded-lg p-4"><p class="text-sm text-gray-600">当前版本：<span class="font-semibold" id="aboutVersion"></span></p><p class="text-sm text-gray-500 mt-1">项目持续更新中，欢迎 <a href="https://github.com/CikiSyteen/sky-stones" class="text-blue-600 hover:underline">Star 关注</a>。</p></div></section>
+        <section><h3 class="text-xl font-semibold mb-3">开源协议</h3><div class="bg-gray-50 border border-gray-200 rounded-lg p-4"><p class="text-sm text-gray-600 mb-2">本项目代码采用 <a href="https://github.com/CikiSyteen/sky-stones/blob/main/LICENSE" class="text-blue-600 hover:underline">MIT License</a> 协议。</p><p class="text-sm text-gray-500">⚠️ 网站图标（favicon-180x180.png）来源于游戏内素材，版权归原版权方所有，不受 MIT 协议覆盖。</p></div></section>
+        <section><h3 class="text-xl font-semibold mb-3">媒体与链接</h3><div class="flex flex-wrap gap-3"><a href="https://github.com/CikiSyteen/sky-stones" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-full transition-colors flex items-center"><i class="fa fa-github mr-2"></i> GitHub</a><a href="https://www.douyin.com/user/MS4wLjABAAAAadfGFZLfoNi2OJKJGb_J7WmqVhLVQVEBdJCnc-8fZJKFPThVyAvX-15fLMf2wR5d" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-full transition-colors flex items-center"><i class="fa fa-music mr-2"></i> 抖音</a><a href="https://www.xiaohongshu.com/user/profile/62d6ad51000000001501b503" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-2 rounded-full transition-colors flex items-center"><i class="fa fa-book mr-2"></i> 小红书</a><a href="https://sky-shards.pages.dev/zh" target="_blank" rel="noopener noreferrer" class="text-sm bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-2 rounded-full transition-colors flex items-center"><i class="fa fa-globe mr-2"></i> 国际服日历</a><a href="https://ciki-hub.pages.dev" target="_blank" style="display:flex;align-items:center;gap:8px;font-size:1.25rem;font-weight:bold;color:#6366f1;text-decoration:none;"><i class="fa fa-cube" style="font-size:1.5rem;"></i><span>Ciki-Hub</span></a></div></section>
+        <section><h3 class="text-xl font-semibold mb-3">联系与反馈</h3><div class="bg-gray-50 border border-gray-200 rounded-lg p-4"><p class="text-sm text-gray-600 mb-2">Bug 反馈或功能建议，可通过以下方式联系：</p><p class="text-sm text-gray-600 mb-2"><i class="fa fa-github mr-2"></i><a href="https://github.com/CikiSyteen/sky-stones/issues" class="text-blue-600 hover:underline">GitHub Issues</a></p><p class="text-sm text-gray-600"><i class="fa fa-envelope mr-2 text-primary"></i><a href="mailto:ciki2099@foxmail.com" class="text-blue-600 hover:underline">ciki2099@foxmail.com</a></p></div></section>
       </div>
     </div>
   </div>
-  
 
-  
-  <!-- 移动端详情弹窗 - 添加mobile-only类确保PC端隐藏 -->
+  <!-- 移动端详情弹窗 -->
   <div id="mobileDetailModal" class="detail-modal mobile-only">
     <div class="detail-content">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold" id="modalTitle">2025年11月1日</h3>
-        <button id="closeDetailModal" class="text-gray-500 hover:text-gray-700">
-          <i class="fa fa-times text-xl"></i>
-        </button>
-      </div>
-      <div class="mb-4">
-        <div class="flex items-center justify-between mb-3">
-          <div class="text-2xl font-bold" id="modalStoneType">红石</div>
-          <button id="modalCopyBtn" class="text-gray-600 hover:text-gray-800" title="复制信息">
-            <i class="fa fa-copy text-xl"></i>
-          </button>
-        </div>
-        <div class="bg-gray-100 rounded-lg p-4 mb-4">
-          <div class="text-gray-700 mb-2"><strong>掉落区域：</strong><span id="modalArea"></span></div>
-          <div>
-            <div class="text-gray-700 mb-2"><strong>掉落时间：</strong></div>
-            <ul class="list-disc list-inside text-gray-600" id="modalTimeSlots">
-              <!-- 时间将动态生成 -->
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="flex justify-center">
-        <button id="closeDetailBtn" class="btn-primary">
-          关闭
-        </button>
-      </div>
+      <div class="flex justify-between items-center mb-4"><h3 class="text-xl font-semibold" id="modalTitle"></h3><button id="closeDetailModal" class="text-gray-500 hover:text-gray-700"><i class="fa fa-times text-xl"></i></button></div>
+      <div class="mb-4"><div class="flex items-center justify-between mb-3"><div class="text-2xl font-bold" id="modalStoneType"></div><button id="modalCopyBtn" class="text-gray-600 hover:text-gray-800"><i class="fa fa-copy text-xl"></i></button></div><div class="bg-gray-100 rounded-lg p-4 mb-4"><div class="text-gray-700 mb-2"><strong>掉落区域：</strong><span id="modalArea"></span></div><div><div class="text-gray-700 mb-2"><strong>掉落时间：</strong></div><ul class="list-disc list-inside text-gray-600" id="modalTimeSlots"></ul></div></div></div>
+      <div class="flex justify-center"><button id="closeDetailBtn" class="btn-primary">关闭</button></div>
     </div>
   </div>
-  
-  <!-- 开发者模式按钮 -->
-  <div class="fixed top-4 left-4 z-50 hidden">
-    <button id="devModeBtn" class="bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-70 hover:opacity-100 transition-opacity" title="开发者模式">
-      开发者模式
-    </button>
-  </div>
-  
-  <!-- 国际服友情链接 -->
-  <div class="fixed top-4 left-4 z-50" id="internationalLinkContainer">
-    <div class="flex flex-col items-center">
-      <button id="internationalLinkBtn" class="bg-blue-600 text-white w-8 h-8 rounded-full hover:bg-blue-700 transition-colors shadow-sm flex items-center justify-center">
-        <i class="fa fa-globe"></i>
-      </button>
-      <span class="text-xs text-gray-600 mt-1 bg-white/80 px-1 rounded">国际服日历</span>
-    </div>
-  </div>
-  
-  <!-- 国际服跳转确认弹窗 -->
-  <div id="internationalModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 hidden">
-    <div class="bg-white rounded-xl p-6 max-w-md w-full shadow-xl">
-      <div class="text-center mb-4">
-        <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-          <i class="fa fa-globe text-blue-600 text-xl"></i>
-        </div>
-        <h3 class="text-lg font-semibold text-gray-800">跳转至国际服日历</h3>
-      </div>
-      <div class="mb-6">
-        <p class="text-sm text-gray-600 text-center mb-3">
-          您即将访问的是其他开发者制作的<br><strong>国际服红黑石日历（sky-shards）</strong>，与本站无关
-        </p>
-        <div class="bg-gray-50 rounded-lg p-3 text-xs text-gray-500 text-center">
-          点击后可通过浏览器返回键回到本站
-        </div>
-      </div>
-      <div class="flex gap-3">
-        <button id="cancelInternational" class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm">
-          取消
-        </button>
-        <button id="continueToInternational" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm">
-          继续访问
-        </button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- 开发者模式时间设置面板 -->
+
+  <!-- 开发者模式按钮与面板 -->
+  <div class="fixed top-4 left-4 z-50 hidden"><button id="devModeBtn" class="bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-70">开发者模式</button></div>
   <div id="devModePanel" class="fixed top-1/2 left-4 -translate-y-1/2 bg-white border border-gray-300 rounded-lg p-3 shadow-lg z-50 hidden">
     <div class="text-xs text-gray-600 mb-2">设置测试时间：</div>
-    <div class="flex flex-col gap-2">
-      <input type="datetime-local" id="devDateTime" class="text-sm border border-gray-300 rounded px-2 py-1">
-      <div class="flex gap-2">
-        <button id="applyDevTime" class="bg-primary text-white text-xs px-2 py-1 rounded">应用</button>
-        <button id="resetDevTime" class="bg-gray-500 text-white text-xs px-2 py-1 rounded">重置</button>
-      </div>
+    <div class="flex flex-col gap-2"><input type="datetime-local" id="devDateTime" class="text-sm border border-gray-300 rounded px-2 py-1"><div class="flex gap-2"><button id="applyDevTime" class="bg-primary text-white text-xs px-2 py-1 rounded">应用</button><button id="resetDevTime" class="bg-gray-500 text-white text-xs px-2 py-1 rounded">重置</button></div></div>
+  </div>
+
+  <!-- 国际服跳转模态框 -->
+  <div id="internationalModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 hidden">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full shadow-xl">
+      <div class="text-center mb-4"><div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3"><i class="fa fa-globe text-blue-600 text-xl"></i></div><h3 class="text-lg font-semibold text-gray-800">跳转至国际服日历</h3></div>
+      <div class="mb-6"><p class="text-sm text-gray-600 text-center mb-3">您即将访问其他开发者制作的<br><strong>国际服红黑石日历</strong>，与本站无关</p><div class="bg-gray-50 rounded-lg p-3 text-xs text-gray-500 text-center">点击后可通过浏览器返回键回到本站</div></div>
+      <div class="flex gap-3"><button id="cancelInternational" class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200">取消</button><button id="continueToInternational" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">继续访问</button></div>
     </div>
   </div>
-  
+
   <!-- 操作按钮区域 -->
   <div class="fixed top-4 right-4 flex items-center gap-2 z-10">
-    <button id="infoBtn" class="btn-icon" aria-label="使用说明">
-      <i class="fa fa-info"></i>
-    </button>
-    <button id="copyBtn" class="btn-icon" aria-label="复制今日信息">
-      <i class="fa fa-copy"></i>
-    </button>
-    <button id="exportBtn" class="btn-icon" aria-label="导出图片">
-      <i class="fa fa-share-alt"></i>
-    </button>
-    <button id="todayBtn" class="btn-primary">
-      <i class="fa fa-calendar-o mr-2"></i>回到今天
-    </button>
-    <button id="toggleTodayBtn" class="btn-icon" aria-label="隐藏今日元素">
-      <i class="fa fa-eye-slash"></i>
-    </button>
+    <button id="infoBtn" class="btn-icon"><i class="fa fa-info"></i></button>
+    <button id="copyBtn" class="btn-icon"><i class="fa fa-copy"></i></button>
+    <button id="exportBtn" class="btn-icon"><i class="fa fa-share-alt"></i></button>
+    <button id="todayBtn" class="btn-primary"><i class="fa fa-calendar-o mr-2"></i>回到今天</button>
+    <button id="toggleTodayBtn" class="btn-icon"><i class="fa fa-eye-slash"></i></button>
   </div>
-  
-  <!-- 实际显示的日历 -->
-  <div class="container mx-auto px-4 py-4 max-w-4xl">
-    <!-- 页面标题 -->
-    <header class="text-center mb-4">
-      <h1 class="text-[clamp(1.5rem,4vw,2rem)] font-bold text-primary mb-3">
-        光遇国服红黑石日历
-      </h1>
-      
 
-    </header>
-    
-    <!-- 日历容器 -->
+  <!-- 主日历容器 -->
+  <div class="container mx-auto px-4 py-4 max-w-4xl">
+    <header class="text-center mb-4"><h1 class="text-[clamp(1.5rem,4vw,2rem)] font-bold text-primary mb-3">光遇国服红黑石日历</h1></header>
     <div class="bg-white rounded-xl shadow-lg p-4 md:p-5 overflow-hidden">
-      <!-- 日历头部：月份切换和当前日期 -->
       <div class="flex flex-col gap-3 mb-4">
-        <!-- 月份切换区域 -->
         <div class="flex items-center justify-between whitespace-nowrap">
-          <button id="prevMonth" class="btn-icon flex-shrink-0" aria-label="上一个月">
-            <i class="fa fa-chevron-left"></i>
-          </button>
-          <h2 id="currentMonth" class="text-[clamp(1.2rem,3vw,1.4rem)] font-semibold text-gray-800 flex-grow text-center min-w-0">
-            2025年11月
-          </h2>
-          <button id="nextMonth" class="btn-icon flex-shrink-0" aria-label="下一个月">
-            <i class="fa fa-chevron-right"></i>
-          </button>
+          <button id="prevMonth" class="btn-icon"><i class="fa fa-chevron-left"></i></button>
+          <h2 id="currentMonth" class="text-[clamp(1.2rem,3vw,1.4rem)] font-semibold text-gray-800 text-center">2025年11月</h2>
+          <button id="nextMonth" class="btn-icon"><i class="fa fa-chevron-right"></i></button>
         </div>
-        
-        <!-- 状态信息显示框 -->
-        <div id="statusInfoBox" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm max-w-full text-center shadow-sm relative">
-          <div id="statusInfoText" class="break-words">今天无红黑石</div>
+        <div id="statusInfoBox" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-center shadow-sm relative">
+          <div id="statusInfoText">今天无红黑石</div>
           <div id="countdownTimer" class="absolute top-1.5 right-2 text-sm font-mono font-bold px-2 py-0.5 rounded-md hidden"></div>
         </div>
       </div>
-      
-      <!-- 星期标题行 -->
       <div class="grid grid-cols-7 gap-2 mb-2">
-        <div class="text-center py-2 font-medium text-gray-700 text-sm">周一</div>
-        <div class="text-center py-2 font-medium text-gray-700 text-sm">周二</div>
-        <div class="text-center py-2 font-medium text-gray-700 text-sm">周三</div>
-        <div class="text-center py-2 font-medium text-gray-700 text-sm">周四</div>
-        <div class="text-center py-2 font-medium text-primary text-sm">周五</div>
-        <div class="text-center py-2 font-medium text-primary text-sm">周六</div>
+        <div class="text-center py-2 font-medium text-gray-700 text-sm">周一</div><div class="text-center py-2 font-medium text-gray-700 text-sm">周二</div>
+        <div class="text-center py-2 font-medium text-gray-700 text-sm">周三</div><div class="text-center py-2 font-medium text-gray-700 text-sm">周四</div>
+        <div class="text-center py-2 font-medium text-primary text-sm">周五</div><div class="text-center py-2 font-medium text-primary text-sm">周六</div>
         <div class="text-center py-2 font-medium text-primary text-sm">周日</div>
       </div>
-      
-      <!-- 日历主体：日期格子 -->
-      <div id="calendarGrid" class="calendar-grid grid calendar-transition">
-        <!-- 日期格子将通过JavaScript动态生成 -->
-      </div>
+      <div id="calendarGrid" class="calendar-grid grid calendar-transition"></div>
     </div>
-    
-    <!-- 底部信息 -->
-    <footer class="mt-4 text-center text-gray-500 text-xs">
-      <p class="mb-1">数据仅供参考，以游戏内实际掉落为准</p>
-      <p>©<span id="currentYear">2025</span> 光遇红黑石日历 <span id="appVersion"></span></p>
-    </footer>
+    <footer class="mt-4 text-center text-gray-500 text-xs"><p>数据仅供参考，以游戏内实际掉落为准</p><p>©<span id="currentYear">2025</span> 光遇红黑石日历 <span id="appVersion"></span></p></footer>
   </div>
-  
-  <!-- 导出图片的模态框 -->
+
+  <!-- 导出图片模态框 -->
   <div id="exportModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-auto">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold">导出图片</h3>
-        <button id="closeModal" class="text-gray-500 hover:text-gray-700">
-          <i class="fa fa-times text-xl"></i>
-        </button>
-      </div>
-      <div class="mb-4">
-        <img id="exportedImage" src="" alt="日历图片" class="w-full rounded-lg shadow-md">
-      </div>
-      <div class="flex justify-center gap-4">
-        <a id="downloadBtn" href="#" class="btn-primary">
-          <i class="fa fa-download mr-2"></i>下载图片
-        </a>
-        <button id="shareBtn" class="btn-primary bg-gray-600 hover:bg-gray-700">
-          <i class="fa fa-share mr-2"></i>分享图片
-        </button>
-      </div>
+      <div class="flex justify-between items-center mb-4"><h3 class="text-xl font-semibold">导出图片</h3><button id="closeModal" class="text-gray-500 hover:text-gray-700"><i class="fa fa-times text-xl"></i></button></div>
+      <div class="mb-4"><img id="exportedImage" src="" alt="日历图片" class="w-full rounded-lg shadow-md"></div>
+      <div class="flex justify-center gap-4"><a id="downloadBtn" href="#" class="btn-primary"><i class="fa fa-download mr-2"></i>下载图片</a><button id="shareBtn" class="btn-primary bg-gray-600 hover:bg-gray-700"><i class="fa fa-share mr-2"></i>分享图片</button></div>
     </div>
   </div>
-<!-- 引入外部脚本 -->
-<script src="js/config.js"></script>
-<script src="js/timeCheck.js"></script>
-<script src="js/tooltip.js"></script>
-<script src="js/statusBar.js"></script>
-<script src="js/calendar.js"></script>
 
+  <div id="internationalLinkContainer" class="fixed top-4 left-4 z-50">
+    <div class="flex flex-col items-center">
+      <button id="internationalLinkBtn" class="bg-blue-600 text-white w-8 h-8 rounded-full hover:bg-blue-700 shadow-sm flex items-center justify-center"><i class="fa fa-globe"></i></button>
+      <span class="text-xs text-gray-600 mt-1 bg-white/80 px-1 rounded">国际服日历</span>
+    </div>
+  </div>
+
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(reg => {
+          console.log('SW registered: ', reg);
+        }).catch(err => {
+          console.log('SW registration failed: ', err);
+        });
+      });
+    }
+  </script>
+  
+  <script src="js/config.js"></script>
+  <script src="js/timeCheck.js"></script>
+  <script src="js/tooltip.js"></script>
+  <script src="js/statusBar.js"></script>
+  <script src="js/calendarRender.js"></script>
+  <script src="js/calendarExport.js"></script>
+  <script src="js/calendarUI.js"></script>
+  <script src="js/calendarCore.js"></script>
+  <script src="js/calendar.js"></script>
 </body></html>
