@@ -1,0 +1,23 @@
+{
+  "name": "光遇红黑石日历",
+  "short_name": "红黑石日历",
+  "description": "光遇国服红黑石降落时间与地点查询",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#D05D5A",
+  "background_color": "#FAFAFA",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
